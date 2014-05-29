@@ -16,7 +16,11 @@ Gallery
 Attach an album to an article/post by placing a gallery metadata tag with the name of the album.
 
 	gallery:album_name
-    
+
+Optionaly you can also add (on one(1) line!)
+
+	gallerycaptions:{'file1':'title1', 'file4':'title4'}
+
 The template has access to the album name.
 
 	article.album
@@ -24,6 +28,10 @@ The template has access to the album name.
 And the filename of images within an album.
 
 	article.albumimages
+
+And the titles associated to the pictures, as a dictionary.
+
+	article.gallerycaptions
 
 ###Gallery Page
 
@@ -43,7 +51,11 @@ The dictionary key is the name of the album and the lists contain the filenames.
 	<h2><a href="{{ SITEURL }}/pages/gallery.html#{{ article.album }}">{{ article.album }}</a></h2>
 	    <ul>
 		{% for image in article.galleryimages %}
+		    {% if article.gallerycaptions.get(image) %}
+		<li><a class="{{ article.album }} cboxElement" href="{{ SITEURL }}/static/images/gallery/{{ article.album }}/{{ image }}" title="{{ article.gallerycaptions.get(image) }}">{{ article.gallerycaptions.get(image) }}<br><img src="{{ SITEURL }}/static/images/gallery200x200/{{ article.album }}/{{ image }}"></a></li>
+		    {% else %}
 		<li><a class="{{ article.album }} cboxElement" href="{{ SITEURL }}/static/images/gallery/{{ article.album }}/{{ image }}"><img src="{{ SITEURL }}/static/images/gallery200x200/{{ article.album }}/{{ image }}"></a></li>
+		    {% endif %}
 		{% endfor %}
 	    </ul>
 		
@@ -62,7 +74,13 @@ The dictionary key is the name of the album and the lists contain the filenames.
 
 	title:Foo
 	gallery:albumname
-	
+
+or, to add captions:
+
+	title:Foo
+	gallery:albumname
+	gallerycaptions:{'file1':'title1', 'file4':'title4'}
+
 ###pages/gallery.md
 
 	title:All Images

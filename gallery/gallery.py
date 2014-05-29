@@ -1,4 +1,5 @@
 import os
+import ast
 from pelican import signals
 
 
@@ -11,6 +12,7 @@ def add_gallery_post(generator):
         if 'gallery' in article.metadata.keys():
             album = article.metadata.get('gallery')
             galleryimages = []
+            gallerycaptions = dict()
 
             articlegallerypath=os.path.join(gallerycontentpath, album)
 
@@ -19,8 +21,12 @@ def add_gallery_post(generator):
                     if os.path.isfile(os.path.join(os.path.join(gallerycontentpath, album), i)):
                         galleryimages.append(i)
 
+            if 'gallerycaptions' in article.metadata.keys():
+                gallerycaptions = ast.literal_eval(article.metadata.get('gallerycaptions'))
+
             article.album = album
             article.galleryimages = sorted(galleryimages)
+            article.gallerycaptions = gallerycaptions
 
 
 def generate_gallery_page(generator):
