@@ -13,6 +13,7 @@ def add_gallery_post(generator):
             album = article.metadata.get('gallery')
             galleryimages = []
             gallerycaptions = dict()
+            gallerycomments = dict()
 
             articlegallerypath=os.path.join(gallerycontentpath, album)
 
@@ -25,9 +26,14 @@ def add_gallery_post(generator):
                 line = article.metadata.get('gallerycaptions').encode('ascii','xmlcharrefreplace')
                 gallerycaptions = ast.literal_eval(line)
 
+            if 'gallerycomments' in article.metadata.keys():
+                line = article.metadata.get('gallerycomments').encode('ascii','xmlcharrefreplace')
+                gallerycomments = ast.literal_eval(line)
+
             article.album = album
             article.galleryimages = sorted(galleryimages)
             article.gallerycaptions = gallerycaptions
+            article.gallerycomments = gallerycomments
 
 
 def generate_gallery_page(generator):
