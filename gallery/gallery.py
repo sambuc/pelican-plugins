@@ -22,7 +22,8 @@ def add_gallery_post(generator):
                         galleryimages.append(i)
 
             if 'gallerycaptions' in article.metadata.keys():
-                gallerycaptions = ast.literal_eval(article.metadata.get('gallerycaptions'))
+                line = article.metadata.get('gallerycaptions').encode('ascii','xmlcharrefreplace')
+                gallerycaptions = ast.literal_eval(line)
 
             article.album = album
             article.galleryimages = sorted(galleryimages)
